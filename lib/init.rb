@@ -1,9 +1,12 @@
+# frozen_string_literal: true
+
 require './lib/card'
 require './lib/deck'
 require './lib/player'
 require './lib/turn'
 require './lib/card_generator'
 
+# Holds the main game and several helper methods
 class Init
   def display_start_message(player1, player2)
     puts 'Welcome to War! (or Peace) This game will be played with 52 cards.'
@@ -11,8 +14,6 @@ class Init
     puts "Type 'GO' to start the game!"
     puts '------------------------------------------------------------------'
   end
-
-  
 
   def new_shuffled_deck
     card_values = Array(2..10).map { |num| [num.to_s, num] }
@@ -100,7 +101,7 @@ class Init
       puts "Turn #{turn_number}: " + turn_description
 
       break if someone_lost
-      
+
       someone_lost = players[0].lost? || players[1].lost?
       break if turn_number >= 1_000_000
     end

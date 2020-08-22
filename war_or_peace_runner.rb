@@ -1,5 +1,5 @@
+# frozen_string_literal: true
+
 require './lib/init'
 
-game = Init.new
-
-game.start
+Init.new.start
