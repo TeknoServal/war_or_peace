@@ -5,7 +5,15 @@ require './lib/card'
 
 class CardGeneratorTest < Minitest::Test
   def test_exists
-    CardGenerator.new.generate_cards('./test/test_cards.txt')
+    generator = CardGenerator.new
+
+    assert_instance_of CardGenerator, generator
+  end
+
+  def test_are_cards
+    cards = CardGenerator.new.generate_cards('./test/test_cards.txt')
+
+    cards.each { |card| assert_instance_of Card, card }
   end
 
   def test_cards
