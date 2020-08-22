@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'minitest/autorun'
 require 'minitest/pride'
 require './lib/card'
@@ -32,7 +34,6 @@ class DeckTest < Minitest::Test
     cards << card2
     cards << card3
     deck = Deck.new(cards)
-
 
     assert_equal(card3, deck.high_ranking_cards[0])
     assert_equal(33, deck.percent_high_ranking)

@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Holds a player and provides access to their deck
 class Player
   attr_reader :deck, :name
 

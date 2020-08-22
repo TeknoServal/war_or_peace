@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Holds a deck of cards and methods to manage it
 class Deck
   attr_reader :cards
 

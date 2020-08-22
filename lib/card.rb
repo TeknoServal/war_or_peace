@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Defines a single card
 class Card
   attr_reader :suit, :value, :rank
 

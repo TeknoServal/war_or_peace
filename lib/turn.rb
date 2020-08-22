@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# Holds and manages the turn
 class Turn
   attr_reader :player1, :player2, :spoils_of_war, :type
 
@@ -53,10 +56,6 @@ class Turn
   end
 
   def award_spoils(winner)
-    
-      spoils_of_war.each { |card| winner.deck.add_card(card) } unless type == :mutually_assured_destruction
-    
-    
-    
+    spoils_of_war.each { |card| winner.deck.add_card(card) } unless type == :mutually_assured_destruction
   end
 end
