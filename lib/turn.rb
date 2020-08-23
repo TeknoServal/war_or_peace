@@ -22,40 +22,25 @@ class Turn
   end
 
   def determine_winner
-    case type
-    when :basic
-      return player1 unless player1.rank_of_card_at(0) < player2.rank_of_card_at(0)
+    return [@player1, @player2].max_by { |player| player.rank_of_card_at(0) } if type == :basic
+    return [@player1, @player2].max_by { |player| player.rank_of_card_at(2) } if type == :war
 
-      player2
-    when :war
-      return player1 unless player1.rank_of_card_at(2) < player2.rank_of_card_at(2)
-
-      player2
-    when :mutually_assured_destruction
-      'No Winner'
-    end
+    'No Winner'
   end
 
   def pile_cards
     case type
     when :basic
-      spoils_of_war << player1.remove_card
-      spoils_of_war << player2.remove_card
-    when :war
-      3.times do
-        spoils_of_war << player1.remove_card
-        spoils_of_war << player2.remove_card
-      end
-    when :mutually_assured_destruction
-      3.times do
-        spoils_of_war << player1.remove_card
-        spoils_of_war << player2.remove_card
-      end
+      @spoils_of_war += [player1.remove_card(1)]
+      @spoils_of_war += [player2.remove_card(1)]
+    when :war, :mutually_assured_destruction
+      @spoils_of_war += player1.remove_card(3)
+      @spoils_of_war += player2.remove_card(3)
     end
   end
 
   def award_spoils(winner)
-    spoils_of_war.each { |card| winner.add_card(card) } unless type == :mutually_assured_destruction || type == :loss
+    winner.add_card(@spoils_of_war) if type == :war || type == :basic
   end
 
   def spoils_length
