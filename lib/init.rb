@@ -74,44 +74,36 @@ class Init
   end
 
   def run(players)
-    someone_lost = false
     turn_number = 0
-    until someone_lost
+    while turn_number < 1_000_000
       turn_number += 1
       turn = Turn.new(players[0], players[1])
 
-      winner = turn.winner
       turn.pile_cards
       card_amount = turn.spoils_of_war.length
-      turn.award_spoils(winner)
+      turn.award_spoils(turn.winner)
 
-      turn_description =
-        case turn.type
-        when :basic
-          "#{winner.name} won #{card_amount} cards"
-        when :loss
-          someone_lost = true
-          "#{(players.sort_by { |player| player.deck.cards.length })[0].name} did not have enough cards"
-        when :war
-          "WAR - #{winner.name} won #{card_amount} cards"
-        when :mutually_assured_destruction
-          "*mutually assured destruction* #{card_amount} cards removed from play"
-        end
+      case turn.type
+      when :basic
+        turn_description = "#{turn.winner.name} won #{card_amount} cards"
+      when :loss
+        puts "Turn #{turn_number}: #{(players.sort_by { |player| player.deck.cards.length })[0].name} did not have enough cards"
+        break
+      when :war
+        turn_description = "WAR - #{turn.winner.name} won #{card_amount} cards"
+      when :mutually_assured_destruction
+        turn_description = "*mutually assured destruction* #{card_amount} cards removed from play"
+      end
 
       puts "Turn #{turn_number}: " + turn_description
 
-      break if someone_lost
-
-      someone_lost = players[0].lost? || players[1].lost?
-      break if turn_number >= 1_000_000
+      break if players[0].lost? || players[1].lost?
     end
 
-    if someone_lost
+    if turn_number >= 1_000_000
+      puts '---- DRAW ----'
+    else
       puts "*~*~*~* #{(players.sort_by { |player| player.deck.cards.length })[1].name} has won the game! *~*~*~*"
-
-      return
     end
-
-    puts '---- DRAW ----'
   end
 end
