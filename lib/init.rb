@@ -89,7 +89,7 @@ class Init
       when :basic
         puts "Turn #{turn_number}: #{turn.winner.name} won #{card_amount} cards"
       when :loss
-        puts "Turn #{turn_number}: #{players.max_by(&:card_count).name} did not have enough cards"
+        puts "Turn #{turn_number}: #{players.min_by(&:card_count).name} did not have enough cards"
         break
       when :war
         puts "Turn #{turn_number}: WAR - #{turn.winner.name} won #{card_amount} cards"
