@@ -1,5 +1,8 @@
 ## War or Peace
 
+Plays the game War from the terminal, determining who wins or if there is a draw.
+
+
 ### Directions
 
 #### Run Game:
