@@ -12,4 +12,20 @@ class Player
   def lost?
     deck.cards.length.zero?
   end
+
+  def rank_of_card_at(index)
+    deck.rank_of_card_at(index)
+  end
+
+  def card_count
+    deck.length
+  end
+
+  def remove_card
+    deck.remove_card
+  end
+
+  def add_card(card)
+    deck.add_card(card)
+  end
 end
