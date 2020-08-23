@@ -8,6 +8,8 @@ require './lib/card_generator'
 
 # Holds the main game and several helper methods
 class Init
+  MAX_TURNS = 1_000_000
+
   def display_start_message(player1, player2)
     puts 'Welcome to War! (or Peace) This game will be played with 52 cards.'
     puts "The players today are #{player1.name} and #{player2.name}."
@@ -75,7 +77,7 @@ class Init
 
   def run(players)
     turn_number = 0
-    while turn_number < 1_000_000
+    while turn_number < MAX_TURNS
       turn_number += 1
       turn = Turn.new(players[0], players[1])
 
@@ -87,7 +89,7 @@ class Init
       when :basic
         turn_description = "#{turn.winner.name} won #{card_amount} cards"
       when :loss
-        puts "Turn #{turn_number}: #{(players.sort_by { |player| player.deck.cards.length })[0].name} did not have enough cards"
+        puts "Turn #{turn_number}: #{players.sort_by(&:card_count)[0].name} did not have enough cards"
         break
       when :war
         turn_description = "WAR - #{turn.winner.name} won #{card_amount} cards"
@@ -100,10 +102,10 @@ class Init
       break if players[0].lost? || players[1].lost?
     end
 
-    if turn_number >= 1_000_000
+    if turn_number >= MAX_TURNS
       puts '---- DRAW ----'
     else
-      puts "*~*~*~* #{(players.sort_by { |player| player.deck.cards.length })[1].name} has won the game! *~*~*~*"
+      puts "*~*~*~* #{players.sort_by(&:card_count)[1].name} has won the game! *~*~*~*"
     end
   end
 end

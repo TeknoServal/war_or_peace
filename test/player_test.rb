@@ -60,4 +60,67 @@ class PlayerTest < Minitest::Test
 
     assert_equal('Charles', player.name)
   end
+
+  def test_rank_of_card_at
+    card1 = Card.new(:spade, 'Ten', 10)
+    card2 = Card.new(:heart, 'Three', 3)
+    card3 = Card.new(:club, 'Jack', 11)
+    cards = []
+    cards << card1
+    cards << card2
+    cards << card3
+    deck = Deck.new(cards)
+
+    player = Player.new('Charles', deck)
+
+    assert_equal 11, player.rank_of_card_at(2)
+    assert_equal 3, player.rank_of_card_at(1)
+  end
+
+  def test_card_count
+    card1 = Card.new(:spade, 'Ten', 10)
+    card2 = Card.new(:heart, 'Three', 3)
+    card3 = Card.new(:club, 'Jack', 11)
+    cards = []
+    cards << card1
+    cards << card2
+    cards << card3
+    deck = Deck.new(cards)
+
+    player = Player.new('Charles', deck)
+
+    assert_equal 3, player.card_count
+  end
+
+  def test_remove_card
+    card1 = Card.new(:spade, 'Ten', 10)
+    card2 = Card.new(:heart, 'Three', 3)
+    card3 = Card.new(:club, 'Jack', 11)
+    cards = []
+    cards << card1
+    cards << card2
+    cards << card3
+    deck = Deck.new(cards)
+
+    player = Player.new('Charles', deck)
+
+    assert_equal card1, player.remove_card
+    assert_equal 2, player.card_count
+  end
+
+  def test_add_card
+    card1 = Card.new(:spade, 'Ten', 10)
+    card2 = Card.new(:heart, 'Three', 3)
+    card3 = Card.new(:club, 'Jack', 11)
+    card4 = Card.new(:diamond, '8', 8)
+    cards = []
+    cards << card1
+    cards << card2
+    cards << card3
+    deck = Deck.new(cards)
+
+    player = Player.new('Charles', deck)
+
+    player.add_card(card4)
+  end
 end

@@ -23,6 +23,20 @@ class InitTest < Minitest::Test
     end
   end
 
+  def test_new_shuffled_deck_from_file
+    deck = @init.new_shuffled_deck_from_file
+
+    assert_instance_of Deck, deck
+    assert_equal 52, deck.cards.length
+    assert deck.cards.is_a?(Array)
+    deck.cards.each do |card|
+      assert card.is_a?(Card)
+      assert card.suit.is_a?(Symbol)
+      assert card.value.is_a?(String)
+      assert card.rank.is_a?(Integer)
+    end
+  end
+
   def test_deal_cards
     decks = @init.deal_cards
 

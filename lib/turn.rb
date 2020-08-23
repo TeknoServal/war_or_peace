@@ -57,4 +57,8 @@ class Turn
   def award_spoils(winner)
     spoils_of_war.each { |card| winner.add_card(card) } unless type == :mutually_assured_destruction || type == :loss
   end
+
+  def spoils_length
+    spoils_of_war.length
+  end
 end

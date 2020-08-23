@@ -56,4 +56,14 @@ class DeckTest < Minitest::Test
 
     assert_equal(card2, deck.cards[0])
   end
+
+  def test_length
+    card = Card.new(:spade, 'Ten', 10)
+    cards = []
+    cards << card
+    deck = Deck.new(cards)
+    assert_equal 1, deck.cards.length
+    deck.add_card(Card.new(:spade, 'Jack', 11))
+    assert_equal 2, deck.cards.length
+  end
 end
