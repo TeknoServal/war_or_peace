@@ -20,10 +20,10 @@ class Init
   def new_shuffled_deck
     card_values = Array(2..10).map { |num| [num.to_s, num] }
 
-    card_values << ['Jack', 11]
-    card_values << ['Queen', 12]
-    card_values << ['King', 13]
-    card_values << ['Ace', 14]
+    card_values += [['Jack', 11],
+                    ['Queen', 12],
+                    ['King', 13],
+                    ['Ace', 14]]
 
     suits = %i[diamond heart spade club]
     whole_deck = Deck.new([])
@@ -87,17 +87,15 @@ class Init
 
       case turn.type
       when :basic
-        turn_description = "#{turn.winner.name} won #{card_amount} cards"
+        puts "Turn #{turn_number}: #{turn.winner.name} won #{card_amount} cards"
       when :loss
-        puts "Turn #{turn_number}: #{players.sort_by(&:card_count)[0].name} did not have enough cards"
+        puts "Turn #{turn_number}: #{players.max_by(&:card_count).name} did not have enough cards"
         break
       when :war
-        turn_description = "WAR - #{turn.winner.name} won #{card_amount} cards"
+        puts "Turn #{turn_number}: WAR - #{turn.winner.name} won #{card_amount} cards"
       when :mutually_assured_destruction
-        turn_description = "*mutually assured destruction* #{card_amount} cards removed from play"
+        puts "Turn #{turn_number}: *mutually assured destruction* #{card_amount} cards removed from play"
       end
-
-      puts "Turn #{turn_number}: " + turn_description
 
       break if players[0].lost? || players[1].lost?
     end
@@ -105,7 +103,7 @@ class Init
     if turn_number >= MAX_TURNS
       puts '---- DRAW ----'
     else
-      puts "*~*~*~* #{players.sort_by(&:card_count)[1].name} has won the game! *~*~*~*"
+      puts "*~*~*~* #{players.max_by(&:card_count).name} has won the game! *~*~*~*"
     end
   end
 end
