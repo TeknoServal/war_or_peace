@@ -26,12 +26,12 @@ class Deck
     high_ranking_cards.length * 100 / cards.length
   end
 
-  def remove_card
-    cards.shift
+  def remove_card(num)
+    num > 1 ? cards.shift(num) : cards.shift
   end
 
-  def add_card(card)
-    cards << card
+  def add_card(new_cards)
+    @cards += [new_cards].flatten
   end
 
   def length
