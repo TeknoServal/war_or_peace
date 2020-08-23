@@ -36,11 +36,11 @@ class PlayerTest < Minitest::Test
 
     assert_equal(false, player.lost?)
 
-    player.deck.remove_card
+    player.deck.remove_card(1)
     assert_equal(false, player.lost?)
-    player.deck.remove_card
+    player.deck.remove_card(1)
     assert_equal(false, player.lost?)
-    player.deck.remove_card
+    player.deck.remove_card(1)
 
     assert_equal(true, player.lost?)
     assert_equal(0, player.deck.cards.length)
@@ -104,7 +104,7 @@ class PlayerTest < Minitest::Test
 
     player = Player.new('Charles', deck)
 
-    assert_equal card1, player.remove_card
+    assert_equal card1, player.remove_card(1)
     assert_equal 2, player.card_count
   end
 
