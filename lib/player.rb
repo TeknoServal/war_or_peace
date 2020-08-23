@@ -21,8 +21,8 @@ class Player
     deck.length
   end
 
-  def remove_card
-    deck.remove_card
+  def remove_card(num)
+    deck.remove_card(num)
   end
 
   def add_card(card)

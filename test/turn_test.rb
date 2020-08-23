@@ -80,6 +80,7 @@ class TurnTest < Minitest::Test
     assert_equal 3, @player1.deck.cards.length
     assert_equal 3, @player2.deck.cards.length
 
+    assert_equal 2, @turn.spoils_length
     assert_equal [@card1, @card3], @turn.spoils_of_war
 
     # Test case 2
@@ -93,10 +94,11 @@ class TurnTest < Minitest::Test
 
     @turn.pile_cards
 
+    assert_equal 6, @turn.spoils_length
     assert_equal 1, @player1.deck.cards.length
     assert_equal 1, @player2.deck.cards.length
 
-    assert_equal [@card1, @card4, @card2, @card3, @card5, @card6], @turn.spoils_of_war
+    assert_equal [@card1, @card2, @card5, @card4, @card3, @card6], @turn.spoils_of_war
 
     # Test case 3
     @deck1 = Deck.new([@card1, @card2, @card5, @card8])
@@ -109,10 +111,11 @@ class TurnTest < Minitest::Test
 
     @turn.pile_cards
 
+    assert_equal 6, @turn.spoils_length
     assert_equal 1, @player1.deck.cards.length
     assert_equal 1, @player2.deck.cards.length
 
-    assert_equal [], @turn.spoils_of_war
+    assert_equal [@card1, @card2, @card5, @card4, @card3, @card9], @turn.spoils_of_war
   end
 
   def test_award_spoils

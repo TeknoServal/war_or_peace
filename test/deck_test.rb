@@ -40,20 +40,35 @@ class DeckTest < Minitest::Test
   end
 
   def test_add_remove
-    deck = Deck.new([])
+
     card1 = Card.new(:spade, 'Ten', 10)
     card2 = Card.new(:heart, 'Three', 3)
+    card3 = Card.new(:diamond, '4', 4)
+    card4 = Card.new(:club, '8', 8)
+    deck = Deck.new([card1, card2])
 
-    deck.add_card(card1)
+    deck.add_card(card3)
 
     assert_equal(card1, deck.cards[0])
 
-    deck.add_card(card2)
+    deck.add_card(card4)
 
     assert_equal(card1, deck.cards[0])
 
-    deck.remove_card
+    assert_equal card1, deck.remove_card(1)
 
     assert_equal(card2, deck.cards[0])
+
+    assert_equal [card2, card3], deck.remove_card(2)
+  end
+
+  def test_length
+    card = Card.new(:spade, 'Ten', 10)
+    cards = []
+    cards << card
+    deck = Deck.new(cards)
+    assert_equal 1, deck.cards.length
+    deck.add_card(Card.new(:spade, 'Jack', 11))
+    assert_equal 2, deck.cards.length
   end
 end

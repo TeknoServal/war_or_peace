@@ -8,6 +8,8 @@ require './lib/card_generator'
 
 # Holds the main game and several helper methods
 class Init
+  MAX_TURNS = 1_000_000
+
   def display_start_message(player1, player2)
     puts 'Welcome to War! (or Peace) This game will be played with 52 cards.'
     puts "The players today are #{player1.name} and #{player2.name}."
@@ -18,10 +20,10 @@ class Init
   def new_shuffled_deck
     card_values = Array(2..10).map { |num| [num.to_s, num] }
 
-    card_values << ['Jack', 11]
-    card_values << ['Queen', 12]
-    card_values << ['King', 13]
-    card_values << ['Ace', 14]
+    card_values += [['Jack', 11],
+                    ['Queen', 12],
+                    ['King', 13],
+                    ['Ace', 14]]
 
     suits = %i[diamond heart spade club]
     whole_deck = Deck.new([])
@@ -75,7 +77,7 @@ class Init
 
   def run(players)
     turn_number = 0
-    while turn_number < 1_000_000
+    while turn_number < MAX_TURNS
       turn_number += 1
       turn = Turn.new(players[0], players[1])
 
@@ -85,25 +87,23 @@ class Init
 
       case turn.type
       when :basic
-        turn_description = "#{turn.winner.name} won #{card_amount} cards"
+        puts "Turn #{turn_number}: #{turn.winner.name} won #{card_amount} cards"
       when :loss
-        puts "Turn #{turn_number}: #{(players.sort_by { |player| player.deck.cards.length })[0].name} did not have enough cards"
+        puts "Turn #{turn_number}: #{players.max_by(&:card_count).name} did not have enough cards"
         break
       when :war
-        turn_description = "WAR - #{turn.winner.name} won #{card_amount} cards"
+        puts "Turn #{turn_number}: WAR - #{turn.winner.name} won #{card_amount} cards"
       when :mutually_assured_destruction
-        turn_description = "*mutually assured destruction* #{card_amount} cards removed from play"
+        puts "Turn #{turn_number}: *mutually assured destruction* #{card_amount} cards removed from play"
       end
-
-      puts "Turn #{turn_number}: " + turn_description
 
       break if players[0].lost? || players[1].lost?
     end
 
-    if turn_number >= 1_000_000
+    if turn_number >= MAX_TURNS
       puts '---- DRAW ----'
     else
-      puts "*~*~*~* #{(players.sort_by { |player| player.deck.cards.length })[1].name} has won the game! *~*~*~*"
+      puts "*~*~*~* #{players.max_by(&:card_count).name} has won the game! *~*~*~*"
     end
   end
 end
